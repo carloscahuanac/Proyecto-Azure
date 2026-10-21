@@ -9,6 +9,7 @@ on:
 env:
   GRUPO_RECURSOS: rg-bootcamp-azure
   NOMBRE_IMAGEN: cloud-health-service
+  UBICACION_AZURE: eastus2
 
 jobs:
   test:
@@ -43,7 +44,8 @@ jobs:
           if [ -z "$NOMBRE_ACR" ]; then
             az deployment group create \
               --resource-group ${{ env.GRUPO_RECURSOS }} \
-              --template-file infra/main.bicep
+              --template-file infra/main.bicep \
+              --parameters ubicacion=${{ env.UBICACION_AZURE }}
             NOMBRE_ACR=$(az acr list --resource-group ${{ env.GRUPO_RECURSOS }} --query "[0].name" -o tsv)
           fi
           SERVIDOR_LOGIN=$(az acr show --name "$NOMBRE_ACR" --query "loginServer" -o tsv)
@@ -81,6 +83,7 @@ jobs:
           SALIDA_DESPLIEGUE=$(az deployment group create \
             --resource-group ${{ env.GRUPO_RECURSOS }} \
             --template-file infra/main.bicep \
+            --parameters ubicacion=${{ env.UBICACION_AZURE }} \
             --parameters imagenContenedor="${{ needs.build-and-push.outputs.etiqueta_imagen }}" \
             --query "properties.outputs" -o json)
           NOMBRE_APP=$(echo "$SALIDA_DESPLIEGUE" | jq -r '.nombreContainerApp.value')
