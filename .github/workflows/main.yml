@@ -98,5 +98,18 @@ jobs:
             --resource-group ${{ env.GRUPO_RECURSOS }} \
             --query "properties.configuration.ingress.fqdn" -o tsv)
           echo "URL: https://$URL_APP"
-          sleep 10
-          curl -s -f "https://$URL_APP/health" || true
+          EXITO=0
+          for intento in {1..12}; do
+            CODIGO_HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://$URL_APP/health" || true)
+            if [ "$CODIGO_HTTP" -eq 200 ]; then
+              echo "Endpoint /health respondiendo con HTTP 200 en el intento $intento"
+              EXITO=1
+              break
+            fi
+            echo "Intento $intento/12: Contenedor iniciando (Codigo HTTP: $CODIGO_HTTP). Reintentando en 5s..."
+            sleep 5
+          done
+          if [ "$EXITO" -ne 1 ]; then
+            echo "ERROR: El endpoint /health no respondio con HTTP 200 tras 60 segundos."
+            exit 1
+          fi
