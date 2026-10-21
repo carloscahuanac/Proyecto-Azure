@@ -27,42 +27,42 @@ El siguiente esquema representa el ciclo completo desde la integración de códi
 
 ```mermaid
 flowchart TD
-    subgraph DevWorkspace["👨‍💻 1. Desarrollo & Control de Versiones"]
-        Code["Código Fuente FastAPI & Tests"]
-        Git["Git Push (Rama main)"]
+    subgraph DevWorkspace["1. Desarrollo y Control de Versiones"]
+        Code["Código Fuente FastAPI y Tests"]
+        Git["Git Push en rama main"]
         Code --> Git
     end
 
-    subgraph CI_CD["🐙 2. Automatización CI/CD (GitHub Actions)"]
-        J1["Job 1: Pruebas Unitarias\n(Pytest sobre /src)"]
-        J2["Job 2: Compilar Docker\ny Push a ACR"]
-        J3["Job 3: Desplegar Infraestructura\nBicep & Container App"]
+    subgraph CI_CD["2. Automatización CI/CD con GitHub Actions"]
+        J1["Job 1: Pruebas Unitarias Pytest"]
+        J2["Job 2: Compilar Docker y Push a ACR"]
+        J3["Job 3: Desplegar Infraestructura Bicep y App"]
         Git --> J1
-        J1 -->|Tests 100% Aprobados| J2
-        J2 -->|Imagen Versionada con SHA| J3
+        J1 -->|Tests Aprobados| J2
+        J2 -->|Imagen Docker| J3
     end
 
-    subgraph Azure["☁️ 3. Microsoft Azure (Región: brazilsouth)"]
+    subgraph Azure["3. Microsoft Azure en Region brazilsouth"]
         subgraph RG["Resource Group: rg-bootcamp-azure"]
-            ACR["📦 Azure Container Registry\n(SKU: Basic)\nImagen: cloud-health-service"]
-            KV["🔐 Azure Key Vault\n(Modo: Azure RBAC)\nSecreto: AppGreeting"]
-            ACA["🚀 Azure Container App\n(ca-cloud-health)\nFastAPI Python 3.11-slim\nEscala: 0 a 1 réplica"]
-            LOG["📊 Log Analytics Workspace\nTelemetría y logs centralizados"]
+            ACR["Azure Container Registry ACR Basic"]
+            KV["Azure Key Vault con RBAC"]
+            ACA["Azure Container App ca-cloud-health"]
+            LOG["Log Analytics Workspace"]
         end
     end
 
-    subgraph Clients["🌐 4. Clientes / Evaluadores"]
+    subgraph Clients["4. Clientes y Evaluadores"]
         Evaluator["Navegador Web / Postman / cURL"]
     end
 
-    J2 -->|1. Push Imagen Docker| ACR
-    J3 -->|2. Despliegue IaC & Actualización| ACA
-    ACR -->|Autenticación Segura de Imagen| ACA
+    J2 -->|Push Imagen Docker| ACR
+    J3 -->|Despliegue y Actualizacion| ACA
+    ACR -->|Autenticacion Segura de Imagen| ACA
     KV -.->|Secreto inyectado por entorno| ACA
-    ACA -->|Envío de Registros y Métricas| LOG
-    Evaluator -->|GET /health (HTTP 200 OK)| ACA
-    Evaluator -->|GET /info (Secreto Key Vault)| ACA
-    Evaluator -->|GET /docs (Swagger UI)| ACA
+    ACA -->|Envio de Logs y Metricas| LOG
+    Evaluator -->|GET /health - HTTP 200 OK| ACA
+    Evaluator -->|GET /info - Secreto Key Vault| ACA
+    Evaluator -->|GET /docs - Swagger UI| ACA
 ```
 
 ---
