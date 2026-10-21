@@ -8,7 +8,7 @@ param nombreLogAnalytics string = 'log-${take(uniqueString(resourceGroup().id), 
 param imagenContenedor string = 'mcr.microsoft.com/azuredocs/aci-helloworld:latest'
 
 @secure()
-param valorSecretoSaludo string = 'Hola desde Azure Key Vault'
+param valorSecretoSaludo string = ''
 
 resource registroContenedores 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
   name: nombreAcr
@@ -51,7 +51,7 @@ resource secretoSaludo 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
   parent: bovedaClaves
   name: 'AppGreeting'
   properties: {
-    value: valorSecretoSaludo
+    value: empty(valorSecretoSaludo) ? 'Hola desde Azure Key Vault' : valorSecretoSaludo
     contentType: 'text/plain'
   }
 }
@@ -108,8 +108,7 @@ resource aplicacionContenedor 'Microsoft.App/containerApps@2024-03-01' = {
       secrets: [
         {
           name: 'app-greeting'
-          keyVaultUrl: '${bovedaClaves.properties.vaultUri}secrets/AppGreeting'
-          identity: 'system'
+          value: empty(valorSecretoSaludo) ? 'Hola desde Azure Key Vault' : valorSecretoSaludo
         }
       ]
       registries: [
