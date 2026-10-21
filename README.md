@@ -1,4 +1,4 @@
-# Cloud Health & Echo Service ☁️🚀
+# Cloud Health & Echo Service
 
 [![CI/CD Pipeline](https://github.com/carloscahuanac/Proyecto-Azure/actions/workflows/main.yml/badge.svg)](https://github.com/carloscahuanac/Proyecto-Azure/actions/workflows/main.yml)
 
@@ -7,7 +7,7 @@
 
 ---
 
-## 🌐 URLs Públicas del Servicio en Producción
+## URLs Públicas del Servicio en Producción
 
 La aplicación se encuentra desplegada y operativa en **Azure Container Apps** (Región: `brazilsouth`):
 
@@ -17,11 +17,11 @@ La aplicación se encuentra desplegada y operativa en **Azure Container Apps** (
 | **`/info`** | `GET` | Lectura segura del secreto inyectado desde Azure Key Vault | [Abrir /info](https://ca-cloud-health.prouddune-9d7183ad.brazilsouth.azurecontainerapps.io/info) |
 | **`/docs`** | `GET` | Documentación interactiva Swagger UI / OpenAPI 3.1 | [Abrir /docs](https://ca-cloud-health.prouddune-9d7183ad.brazilsouth.azurecontainerapps.io/docs) |
 
-> ⏱️ *Nota de Arquitectura:* Debido a la configuración de escala a cero (`minReplicas: 0`) para ahorro de créditos, si el servicio no ha recibido tráfico reciente, la primera petición puede demorar entre 8 y 12 segundos en responder mientras Azure aprovisiona la réplica (Cold Start exitoso).
+> *Nota de Arquitectura:* Debido a la configuración de escala a cero (`minReplicas: 0`) para ahorro de créditos, si el servicio no ha recibido tráfico reciente, la primera petición puede demorar entre 8 y 12 segundos en responder mientras Azure aprovisiona la réplica (Cold Start exitoso).
 
 ---
 
-## 🏗️ Diagrama de Arquitectura y Flujo de Tráfico
+## Diagrama de Arquitectura y Flujo de Tráfico
 
 El siguiente esquema representa el ciclo completo desde la integración de código hasta el consumo del usuario final en Azure:
 
@@ -67,7 +67,7 @@ flowchart TD
 
 ---
 
-## 📋 Requisitos de Negocio y Arquitectura Cumplidos
+## Requisitos de Negocio y Arquitectura Cumplidos
 
 1. **Microservicio Cloud Health & Echo Service (Python 3.11 / FastAPI):**
    - **`GET /health`:** Responde con código HTTP 200 y payload `{"status": "ok", "environment": "production"}`.
@@ -94,7 +94,7 @@ flowchart TD
 
 ---
 
-## 💰 Estrategia de Optimización de Costos (Suscripción Estudiantil)
+## Estrategia de Optimización de Costos (Suscripción Estudiantil)
 
 Para garantizar la viabilidad del proyecto en cuentas **Azure for Students** y gratuitas:
 - **Escala a Cero (`minReplicas: 0`):** Cuando la API no recibe peticiones, el contenedor se apaga por completo, resultando en un costo de cómputo de **\$0.00 USD**.
@@ -103,7 +103,7 @@ Para garantizar la viabilidad del proyecto en cuentas **Azure for Students** y g
 
 ---
 
-## 📸 Evidencias de Entrega y Verificación
+## Evidencias de Entrega y Verificación
 
 ### 1. Panel de Recursos en el Portal de Azure
 *Grupo de recursos `rg-bootcamp-azure` en la región `brazilsouth` con todos los recursos aprovisionados (Container App, Container Apps Environment, Container Registry, Key Vault y Log Analytics).*
@@ -133,7 +133,7 @@ Para garantizar la viabilidad del proyecto en cuentas **Azure for Students** y g
 
 ---
 
-## 🧪 Ejecución de Pruebas Locales
+## Ejecución de Pruebas Locales
 
 Para ejecutar las pruebas en un entorno local antes de hacer push:
 
@@ -154,7 +154,7 @@ pytest src/test_app.py -v
 
 ---
 
-## 🧹 Limpieza de Recursos (Clean-Up)
+## Limpieza de Recursos (Clean-Up)
 
 Al finalizar la revisión del proyecto, elimina el Resource Group completo para liberar recursos en Azure:
 
