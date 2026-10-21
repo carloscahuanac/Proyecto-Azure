@@ -108,28 +108,28 @@ Para garantizar la viabilidad del proyecto en cuentas **Azure for Students** y g
 ### 1. Panel de Recursos en el Portal de Azure
 *Grupo de recursos `rg-bootcamp-azure` en la región `brazilsouth` con todos los recursos aprovisionados (Container App, Container Apps Environment, Container Registry, Key Vault y Log Analytics).*
 
-![alt text](image.png)
+![Panel de Recursos en el Portal de Azure](image.png)
 
 ---
 
 ### 2. Pipeline de CI/CD Exitoso (GitHub Actions)
 *Ejecución del pipeline mostrando los 3 jobs en verde: `Pruebas Unitarias`, `Compilar y Publicar en ACR` y `Desplegar en Azure`.*
 
-![alt text](image-1.png)
+![Pipeline de CI/CD Exitoso](image-1.png)
 
 ---
 
 ### 3. Respuesta JSON del Endpoint `/health` en el Navegador
 *Verificación en vivo del endpoint de salud retornando código HTTP 200 OK y el JSON esperado.*
 
-> *(Pega aquí tu captura del navegador abriendo la URL /health)*
+![Respuesta JSON del Endpoint Health](image-2.png)
 
 ---
 
 ### 4. Seguridad, Identidad y Asignación de Roles RBAC
-*Panel de Control de Acceso (IAM) del Grupo de Recursos o Key Vault mostrando los roles asignados al Service Principal de automatización.*
+*Panel de Control de Acceso (IAM) del Grupo de Recursos mostrando los roles asignados al Service Principal de automatización.*
 
-> *(Pega aquí tu captura de la pestaña Access control (IAM) > Role assignments)*
+![Seguridad y Asignación de Roles RBAC](image-3.png)
 
 ---
 
