@@ -92,9 +92,6 @@ resource entornoContainerApps 'Microsoft.App/managedEnvironments@2024-03-01' = {
 resource aplicacionContenedor 'Microsoft.App/containerApps@2024-03-01' = {
   name: nombreContainerApp
   location: ubicacion
-  identity: {
-    type: 'SystemAssigned'
-  }
   properties: {
     environmentId: entornoContainerApps.id
     configuration: {
@@ -152,39 +149,8 @@ resource aplicacionContenedor 'Microsoft.App/containerApps@2024-03-01' = {
   }
 }
 
-resource rolUsuarioSecretosKeyVault 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
-  scope: subscription()
-  name: '4633458b-17de-408a-b874-0445c86b69e6'
-}
-
-resource asignacionRolKeyVault 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(bovedaClaves.id, aplicacionContenedor.id, rolUsuarioSecretosKeyVault.id)
-  scope: bovedaClaves
-  properties: {
-    roleDefinitionId: rolUsuarioSecretosKeyVault.id
-    principalId: aplicacionContenedor.identity.principalId
-    principalType: 'ServicePrincipal'
-  }
-}
-
-resource rolAcrPull 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
-  scope: subscription()
-  name: '7f951dda-4ed3-4680-a7ca-43fe172d538d'
-}
-
-resource asignacionRolAcr 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(registroContenedores.id, aplicacionContenedor.id, rolAcrPull.id)
-  scope: registroContenedores
-  properties: {
-    roleDefinitionId: rolAcrPull.id
-    principalId: aplicacionContenedor.identity.principalId
-    principalType: 'ServicePrincipal'
-  }
-}
-
 output servidorAcr string = registroContenedores.properties.loginServer
 output nombreAcr string = registroContenedores.name
 output nombreKeyVault string = bovedaClaves.name
 output nombreContainerApp string = aplicacionContenedor.name
 output urlContainerApp string = aplicacionContenedor.properties.configuration.ingress.fqdn
-output idPrincipalIdentidad string = aplicacionContenedor.identity.principalId
