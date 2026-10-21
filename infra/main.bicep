@@ -110,11 +110,16 @@ resource aplicacionContenedor 'Microsoft.App/containerApps@2024-03-01' = {
           name: 'app-greeting'
           value: empty(valorSecretoSaludo) ? 'Hola desde Azure Key Vault' : valorSecretoSaludo
         }
+        {
+          name: 'acr-password'
+          value: registroContenedores.listCredentials().passwords[0].value
+        }
       ]
       registries: [
         {
           server: registroContenedores.properties.loginServer
-          identity: 'system'
+          username: registroContenedores.listCredentials().username
+          passwordSecretRef: 'acr-password'
         }
       ]
     }
